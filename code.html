@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generation Hierarchy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(120deg, #e0f7fa 0%, #f8fafc 100%);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .tree-card {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: 0 8px 32px rgba(14, 165, 164, 0.10), 0 1.5px 8px rgba(0,0,0,0.04);
+      padding: 38px 32px 32px 32px;
+      margin-top: 48px;
+      min-width: 320px;
+      max-width: 400px;
+      width: 100%;
+      animation: fadeInTree 1.2s cubic-bezier(.4,1.4,.6,1) both;
+    }
+
+    @keyframes fadeInTree {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: none;}
+    }
+
+    .tree-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0ea5a4;
+      text-align: center;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+    .tree-sub {
+      text-align: center;
+      color: #64748b;
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      font-weight: 500;
+    }
+
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .gen {
+      background: linear-gradient(90deg, #0ea5a4 0%, #38bdf8 100%);
+      border: none;
+      border-radius: 16px;
+      padding: 16px 0;
+      min-width: 180px;
+      width: 90%;
+      max-width: 320px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #fff;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 18px rgba(14, 165, 164, 0.13);
+      opacity: 0;
+      transform: translateY(40px);
+      animation: fadeInUp 0.8s forwards;
+      transition: box-shadow 0.3s, transform 0.3s;
+      outline: none;
+      letter-spacing: 0.5px;
+      user-select: none;
+    }
+
+    .gen:hover, .gen:focus {
+      box-shadow: 0 0 0 4px #bae6fd, 0 8px 32px rgba(14, 165, 164, 0.18);
+      transform: scale(1.045) translateY(-2px);
+      background: linear-gradient(90deg, #38bdf8 0%, #0ea5a4 100%);
+      color: #fff;
+    }
+
+    /* Animation for nodes */
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Connectors */
+    .line {
+      width: 4px;
+      height: 36px;
+      background: linear-gradient(180deg, #0ea5a4 0%, #38bdf8 100%);
+      border-radius: 2px;
+      animation: growLine 0.8s forwards;
+      opacity: 0;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px #bae6fd44;
+    }
+
+    @keyframes growLine {
+      to {
+        opacity: 1;
+        height: 36px;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 500px) {
+      .tree-card {
+        padding: 18px 4vw 18px 4vw;
+        min-width: unset;
+        max-width: 98vw;
+      }
+      .gen {
+        min-width: 120px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="tree-card">
+    <div class="tree-title">Generation Hierarchy</div>
+    <div class="tree-sub">A visual representation of generational succession</div>
+    <div class="tree" id="tree"></div>
+  </div>
+  <script>
+    const generations = [
+      "1st Generation",
+      "2nd Generation",
+      "3rd Generation",
+      "4th Generation",
+      "5th Generation",
+      "6th Generation",
+      "7th Generation",
+      "8th Generation"
+    ];
+
+    const tree = document.getElementById("tree");
+
+    generations.forEach((gen, i) => {
+      // Add node
+      const node = document.createElement("div");
+      node.className = "gen";
+      node.style.animationDelay = `${i * 0.5}s`;
+      node.tabIndex = 0;
+      node.innerText = gen;
+      tree.appendChild(node);
+
+      // Add connector line except for last one
+      if (i < generations.length - 1) {
+        const line = document.createElement("div");
+        line.className = "line";
+        line.style.animationDelay = `${i * 0.5 + 0.25}s`;
+        tree.appendChild(line);
+      }
+    });
+  </script>
+</body>
+</html>

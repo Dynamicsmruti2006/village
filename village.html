@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Heritage — Minimal College Project</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #fbfbfd;
+      --card: #ffffff;
+      --muted:#667085;
+      --accent: #3b82f6;
+      --glass: rgba(255,255,255,0.7);
+      --shadow: 0 6px 18px rgba(15,23,42,0.06);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: light;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#f7f9fc 0%, var(--bg) 100%);
+      color:#0f172a;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+      padding:20px;
+    }
+
+    /* Layout */
+    .container{max-width:1100px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:24px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#6ee7b7);display:flex;align-items:center;justify-content:center;color:white;font-weight:700}
+    nav a{margin:0 8px;text-decoration:none;color:var(--muted);font-weight:600;padding:8px 12px;border-radius:8px}
+    nav a.active{background:var(--card);color:var(--accent);box-shadow:var(--shadow)}
+
+    main.card{background:var(--card);border-radius:14px;padding:26px;box-shadow:var(--shadow)}
+
+    /* Hero */
+    .hero{display:flex;align-items:center;justify-content:space-between;gap:20px}
+    .hero .left{max-width:62%}
+    h1{margin:0 0 8px;font-size:28px}
+    p.lead{margin:0;color:var(--muted)}
+
+    /* Pages */
+    .pages > section{display:none;padding-top:18px}
+    .pages > section.active{display:block}
+
+    /* Gallery */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+    .imgCard{border-radius:10px;overflow:hidden;background:linear-gradient(180deg,#fff,#f8fafc);min-height:120px;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px solid #eef2ff}
+
+    /* Generation Hierarchy */
+    .gen-wrap{display:flex;gap:24px;align-items:flex-start}
+    .gen-column{width:320px}
+    .gen-node{background:var(--glass);border-radius:12px;padding:12px;border:1px solid rgba(15,23,42,0.04);cursor:pointer;position:relative;margin-bottom:12px;transition:transform .18s ease}
+    .gen-node:hover{transform:translateY(-4px)}
+    .gen-node .title{font-weight:600}
+    .gen-node .meta{font-size:13px;color:var(--muted)}
+    .gen-node .est{font-size:12px;color:var(--muted);margin-top:6px}
+
+    .gen-node .detail-card{position:absolute;left:calc(100% + 12px);top:0;width:320px;background:var(--card);border-radius:10px;padding:14px;box-shadow:var(--shadow);display:none;z-index:30}
+    .gen-node:hover .detail-card{display:block}
+
+    .controls{display:flex;gap:8px;margin-top:12px}
+    .btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
+    .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(59,130,246,0.12)}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.45);display:none;align-items:center;justify-content:center;padding:20px}
+    .modal{background:var(--card);border-radius:12px;padding:18px;max-width:720px;width:100%;box-shadow:var(--shadow)}
+    .field{display:flex;flex-direction:column;margin-bottom:10px}
+    .field label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    .field input,.field textarea,select{padding:10px;border-radius:8px;border:1px solid #e6eef7;font-size:14px}
+    .small{font-size:13px;color:var(--muted)}
+
+    footer{margin-top:28px;text-align:center;color:var(--muted);font-size:13px}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .hero{flex-direction:column;align-items:flex-start}
+      .gen-wrap{flex-direction:column}
+      .gen-node .detail-card{position:static;margin-top:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">H</div>
+        <div>
+          <div style="font-weight:700">Heritage</div>
+          <div style="font-size:12px;color:var(--muted)">Minimal project for college</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#" data-page="home" class="active">Home</a>
+        <a href="#" data-page="about">About</a>
+        <a href="#" data-page="gallery">Gallery</a>
+        <a href="#" data-page="visiting">Visiting Place</a>
+        <a href="#" data-page="culture">Explore Culture</a>
+        <a href="#" data-page="generation">Generation Hierarchy</a>
+        <a href="#" data-page="contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="card">
+      <div class="hero">
+        <div class="left">
+          <h1>Heritage — A clean presentation</h1>
+          <p class="lead">A minimal, accessible, and interactive website template for your college project. Clean UI, responsive, and local-storage powered generation hierarchy.</p>
+        </div>
+        <div class="right small" style="text-align:right">
+          <div>Made for: College Project</div>
+          <div style="margin-top:6px;color:var(--muted)">Tip: Visit the "Generation Hierarchy" page to see the interactive family generations.</div>
+        </div>
+      </div>
+
+      <div class="pages">
+        <section id="home" class="active">
+          <h2>Welcome</h2>
+          <p class="small">This site includes a full generation hierarchy that expands dynamically and stores edits in localStorage. Use the navigation to explore all sections.</p>
+        </section>
+
+        <section id="about">
+          <h2>About</h2>
+          <p class="small">This template is intentionally minimal — designed for clarity and easy customization. You can copy, modify, or extend the code to match your project's requirements.</p>
+        </section>
+
+        <section id="gallery">
+          <h2>Gallery</h2>
+          <div class="grid" id="galleryGrid">
+            <div class="imgCard">Image 1</div>
+            <div class="imgCard">Image 2</div>
+            <div class="imgCard">Image 3</div>
+            <div class="imgCard">Image 4</div>
+            <div class="imgCard">Image 5</div>
+            <div class="imgCard">Image 6</div>
+          </div>
+        </section>
+
+        <section id="visiting">
+          <h2>Visiting Place</h2>
+          <p class="small">List of recommended visiting places and brief descriptions. Replace with real content for your project.</p>
+          <ul>
+            <li><strong>Heritage Park</strong> — A peaceful park with historical monuments.</li>
+            <li><strong>Old Town</strong> — Narrow lanes and traditional markets.</li>
+            <li><strong>Museum of History</strong> — Artefacts and interactive exhibits.</li>
+          </ul>
+        </section>
+
+        <section id="culture">
+          <h2>Explore Culture</h2>
+          <p class="small">Culture highlights: festivals, food, costumes, and music. This area is meant for informative cards and media.</p>
+        </section>
+
+        <section id="generation">
+          <h2>Generation Hierarchy</h2>
+          <div style="display:flex;gap:18px;align-items:flex-start;flex-wrap:wrap">
+            <div class="gen-column">
+              <div id="gensContainer"></div>
+              <div class="controls">
+                <button id="resetBtn" class="btn ghost">Reset to Dummy Data</button>
+                <button id="exportBtn" class="btn ghost">Export (JSON)</button>
+              </div>
+            </div>
+
+            <div style="flex:1;min-width:320px">
+              <div style="background:var(--card);padding:14px;border-radius:10px;box-shadow:var(--shadow)">
+                <h3 style="margin:0 0 8px">Instructions</h3>
+                <ol class="small">
+                  <li>Click on a generation node (1st Gen → 2nd Gen → ...) to reveal the next generation.</li>
+                  <li>Hover on any node to see detailed family info (DOB, siblings, children).</li>
+                  <li>Use the "Update" button on each node to edit the data — changes are saved to your browser's localStorage.</li>
+                  <li>Use Export to copy the JSON, or Reset to restore dummy data.</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact">
+          <h2>Contact Us</h2>
+          <p class="small">In a real project this form could send data to a server. For the hackathon, the form stores submissions in localStorage.</p>
+          <div style="max-width:560px">
+            <div class="field"><label>Name</label><input id="cname" placeholder="Your name"></div>
+            <div class="field"><label>Email</label><input id="cemail" placeholder="you@example.com" type="email"></div>
+            <div class="field"><label>Message</label><textarea id="cmsg" rows="4" placeholder="Write a short message..."></textarea></div>
+            <div style="display:flex;gap:8px"><button id="sendBtn" class="btn">Send</button><button id="clearMessages" class="btn ghost">Clear Messages</button></div>
+            <div id="msgSaved" class="small" style="margin-top:8px;color:var(--muted)"></div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer>
+      © <span id="year"></span> Heritage — Built for a college project. Local storage used for edits.
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3 id="modalTitle">Edit Generation</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:200px">
+          <div class="field"><label>Generation</label><input id="mGen" disabled></div>
+          <div class="field"><label>Title (e.g., 1st Generation)</label><input id="mTitle"></div>
+          <div class="field"><label>Established Year</label><input id="mEst" type="number"></div>
+        </div>
+        <div style="flex:1;min-width:200px">
+          <div class="field"><label>Name</label><input id="mName"></div>
+          <div class="field"><label>DOB</label><input id="mDob" placeholder="YYYY-MM-DD"></div>
+        </div>
+      </div>
+      <div class="field"><label>Siblings (comma separated)</label><input id="mSiblings"></div>
+      <div class="field"><label>Children (comma separated)</label><input id="mChildren"></div>
+      <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:10px">
+        <button id="closeModal" class="btn ghost">Cancel</button>
+        <button id="saveModal" class="btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Utilities
+    const $ = sel => document.querySelector(sel);
+    const $$ = sel => Array.from(document.querySelectorAll(sel));
+
+    const defaultData = [
+      {id:1,gen:'1st Generation',est:1901,title:'1st Gen',name:'Arjun Rao',dob:'1901-06-14',siblings:['Kiran Rao'],children:['Vikram Rao']},
+      {id:2,gen:'2nd Generation',est:1930,title:'2nd Gen',name:'Vikram Rao',dob:'1930-02-22',siblings:[],children:['Leela Rao','Satish Rao']},
+      {id:3,gen:'3rd Generation',est:1960,title:'3rd Gen',name:'Leela Rao',dob:'1960-07-04',siblings:['Satish Rao'],children:['Maya Rao']},
+      {id:4,gen:'4th Generation',est:1986,title:'4th Gen',name:'Maya Rao',dob:'1986-11-18',siblings:[],children:['Rohan Rao','Nisha Rao']},
+      {id:5,gen:'5th Generation',est:2010,title:'5th Gen',name:'Rohan Rao',dob:'2010-05-23',siblings:['Nisha Rao'],children:['Aadi Rao']},
+      {id:6,gen:'6th Generation',est:2035,title:'6th Gen',name:'Aadi Rao',dob:'2035-01-01',siblings:[],children:[]},
+      {id:7,gen:'7th Generation',est:2060,title:'7th Gen',name:'(Future)',dob:'2060-01-01',siblings:[],children:[]},
+      {id:8,gen:'8th Generation',est:2085,title:'8th Gen',name:'(Future)',dob:'2085-01-01',siblings:[],children:[]}
+    ];
+
+    // Storage key
+    const KEY = 'heritage_generations_v1';
+
+    function loadData(){
+      try{
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return JSON.parse(JSON.stringify(defaultData));
+        return JSON.parse(raw);
+      }catch(e){
+        console.error('Failed to parse storage',e);
+        return JSON.parse(JSON.stringify(defaultData));
+      }
+    }
+
+    function saveData(data){
+      localStorage.setItem(KEY, JSON.stringify(data));
+    }
+
+    let gens = loadData();
+
+    // Render gens
+    function renderGens(){
+      const container = $('#gensContainer');
+      container.innerHTML = '';
+      gens.forEach((g, idx) => {
+        const node = document.createElement('div');
+        node.className = 'gen-node';
+        node.dataset.idx = idx;
+        node.innerHTML = `
+          <div class="title">${g.gen} — ${g.title}</div>
+          <div class="meta">Head: ${escapeHtml(g.name)}</div>
+          <div class="est">Established: ${g.est}</div>
+          <div class="detail-card">
+            <div style="font-weight:700;margin-bottom:6px">${g.name}</div>
+            <div class="small">DOB: ${g.dob}</div>
+            <div class="small">Siblings: ${g.siblings.join(', ') || '-'}</div>
+            <div class="small">Children: ${g.children.join(', ') || '-'}</div>
+            <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn ghost" data-action="reveal">Reveal Next</button>
+              <button class="btn" data-action="edit">Update</button>
+            </div>
+          </div>
+        `;
+
+        // click to reveal next
+        node.addEventListener('click', (e)=>{
+          // ignore clicks on detail-card buttons (they have specific handlers)
+          if(e.target && e.target.matches('button')) return;
+          const i = Number(node.dataset.idx);
+          revealNext(i);
+        });
+
+        // handle internal buttons
+        node.querySelectorAll('button').forEach(btn => {
+          btn.addEventListener('click', (ev)=>{
+            ev.stopPropagation();
+            const action = btn.dataset.action;
+            const i = Number(node.dataset.idx);
+            if(action === 'reveal') revealNext(i);
+            if(action === 'edit') openEditModal(i);
+          });
+        });
+
+        container.appendChild(node);
+      });
+    }
+
+    function revealNext(i){
+      const nextIdx = i+1;
+      if(nextIdx >= gens.length) return; // nothing to reveal
+      // visually move next into view by scrolling and briefly highlighting
+      const nodes = $$('#gensContainer .gen-node');
+      const next = nodes[nextIdx];
+      if(next){
+        next.scrollIntoView({behavior:'smooth',block:'center'});
+        next.animate([{transform:'scale(0.98)'},{transform:'scale(1)'}],{duration:220});
+        // small border flash
+        next.style.outline = '3px solid rgba(59,130,246,0.12)';
+        setTimeout(()=> next.style.outline = 'none',900);
+      }
+    }
+
+    // Safe HTML escape for inline content
+    function escapeHtml(s){
+      if(!s && s!==0) return '';
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // Modal editing
+    const modal = $('#modalBackdrop');
+    const mGen = $('#mGen');
+    const mTitle = $('#mTitle');
+    const mEst = $('#mEst');
+    const mName = $('#mName');
+    const mDob = $('#mDob');
+    const mSiblings = $('#mSiblings');
+    const mChildren = $('#mChildren');
+    let editingIndex = null;
+
+    function openEditModal(i){
+      editingIndex = i;
+      const g = gens[i];
+      mGen.value = g.gen;
+      mTitle.value = g.title;
+      mEst.value = g.est;
+      mName.value = g.name;
+      mDob.value = g.dob;
+      mSiblings.value = g.siblings.join(', ');
+      mChildren.value = g.children.join(', ');
+      modal.style.display = 'flex';
+    }
+    function closeModal(){ modal.style.display = 'none'; editingIndex = null; }
+
+    $('#closeModal').addEventListener('click', ()=> closeModal());
+    $('#modalBackdrop').addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+    $('#saveModal').addEventListener('click', ()=>{
+      if(editingIndex === null) return;
+      const g = gens[editingIndex];
+      g.title = mTitle.value.trim() || g.title;
+      g.est = Number(mEst.value) || g.est;
+      g.name = mName.value.trim() || g.name;
+      g.dob = mDob.value.trim() || g.dob;
+      g.siblings = mSiblings.value.split(',').map(s=>s.trim()).filter(Boolean);
+      g.children = mChildren.value.split(',').map(s=>s.trim()).filter(Boolean);
+      saveData(gens);
+      renderGens();
+      closeModal();
+    });
+
+    // Navigation
+    $$('nav a').forEach(a=>{
+      a.addEventListener('click',(e)=>{
+        e.preventDefault();
+        const page = a.dataset.page;
+        $$('nav a').forEach(x=>x.classList.remove('active'));
+        a.classList.add('active');
+        $$('main .pages > section').forEach(s=>{s.classList.remove('active')});
+        const target = document.getElementById(page);
+        if(target) target.classList.add('active');
+      })
+    });
+
+    // Contact form
+    $('#sendBtn').addEventListener('click', ()=>{
+      const name = $('#cname').value.trim();
+      const email = $('#cemail').value.trim();
+      const msg = $('#cmsg').value.trim();
+      if(!name || !email || !msg){ $('#msgSaved').textContent = 'Please fill all fields.'; return; }
+      const key = 'heritage_messages';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      existing.push({name,email,msg,ts:Date.now()});
+      localStorage.setItem(key, JSON.stringify(existing));
+      $('#msgSaved').textContent = 'Message saved locally. Thank you!';
+      $('#cname').value='';$('#cemail').value='';$('#cmsg').value='';
+      setTimeout(()=> $('#msgSaved').textContent = '', 3000);
+    });
+    $('#clearMessages').addEventListener('click', ()=>{ localStorage.removeItem('heritage_messages'); $('#msgSaved').textContent = 'Messages cleared.'; setTimeout(()=> $('#msgSaved').textContent='',2500); });
+
+    // Reset and export
+    $('#resetBtn').addEventListener('click', ()=>{
+      if(confirm('Reset all generation data to default dummy data?')){
+        gens = JSON.parse(JSON.stringify(defaultData));
+        saveData(gens);
+        renderGens();
+        alert('Reset complete.');
+      }
+    });
+
+    $('#exportBtn').addEventListener('click', ()=>{
+      const txt = JSON.stringify(gens,null,2);
+      // copy to clipboard if available
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(()=> alert('JSON copied to clipboard.')) }
+      else { prompt('Copy JSON:', txt); }
+    });
+
+    // utilities
+    function setYear(){ $('#year').textContent = new Date().getFullYear(); }
+
+    // init
+    setYear();
+    renderGens();
+
+  </script>
+</body>
+</html>
