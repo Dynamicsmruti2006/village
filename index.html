@@ -281,45 +281,7 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
   initStars();
 });
-  const sections = document.querySelectorAll("section");
-const observer = new IntersectionObserver(
-  entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("fade-in");
-      }
-    });
-  },
-  { threshold: 0.2 }
-);
 
-sections.forEach(section => observer.observe(section));
-
-
-
-const siteName = document.getElementById('siteName');
-    const texts = ['Nayagarh!', 'नयागढ़!', 'ଆମ ନୟାଗଡ଼!']; // English, Hindi, Odia (Ama Nayagarh)
-    let index = 0;
-
-    setInterval(() => {
-      // Update index
-      index = (index + 1) % texts.length;
-
-      // Add up-down animation
-      siteName.classList.add('animate-updown');
-
-      // Change text after short delay (half animation duration)
-      setTimeout(() => {
-        siteName.textContent = texts[index];
-      }, 300);
-
-      // Remove animation class after animation ends
-      setTimeout(() => {
-        siteName.classList.remove('animate-updown');
-      }, 600);
-
-    }, 2000); // 2 seconds
-    // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Scroll reveal animations using IntersectionObserver
